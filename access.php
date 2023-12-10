@@ -38,9 +38,14 @@
 
         $create_properties = "CREATE TABLE IF NOT EXISTS Properties (
             propertyID INT UNSIGNED AUTO_INCREMENT,
+            p_img VARCHAR(150),
             p_name VARCHAR(30) NOT NULL,
-            p_address VARCHAR(30) NOT NULL,
-            p_price VARCHAR(70) NOT NULL,
+            p_address VARCHAR(100) NOT NULL,
+            p_price INT UNSIGNED NOT NULL,
+            p_beds INT UNSIGNED NOT NULL,
+            p_baths FLOAT UNSIGNED NOT NULL,
+            p_sqft INT UNSIGNED,
+            p_type CHAR(1),
             p_status VARCHAR(30) NOT NULL,
             seller_id INT UNSIGNED NOT NULL,
             buyer_id INT UNSIGNED,
@@ -69,6 +74,19 @@
         }
     }
 
+    function checkAddressInTable($address) {
+        $sql = "SELECT * FROM Properties WHERE p_address = '". $address. "'";
+
+        // check if address is already taken
+        $res = runQuery($sql);
+
+        if($res->num_rows === 0 ) {
+            return True;
+        } else {
+            return False;
+        }
+    }
+
     function insertUser($f_name, $l_name, $email, $userName, $encryptedPassword, $account_type) {
         $userAvailable = checkUsernameAvailable($userName);
 
@@ -88,12 +106,12 @@
     }
 
     function loginUser($userName, $password) {
-        $sql = "SELECT f_name, l_name, userName, userPassword, accountType FROM Users WHERE userName = '".$userName."'";
+        $sql = "SELECT userID, f_name, l_name, userName, userPassword, accountType FROM Users WHERE userName = '".$userName."'";
 
         // get user information given username
         $result = runQuery($sql);
         // if error when running query, return error
-        if(is_array($result) == 2 and $result[1] === False) {
+        if(is_array($result) and count($result) == 2 and $result[1] === False) {
             return $result;
         }
 
@@ -106,7 +124,7 @@
 
             // if it matches, return information
             if($passwordCorrect) {
-                return [$row['userName'], $row['f_name'], $row['l_name'], $row['accountType']];
+                return [$row['userName'], $row['f_name'], $row['l_name'], $row['accountType'], $row['userID']];
             } else {
                 // otherwise return error
                 return ["Incorrect username/password.", False];
@@ -116,5 +134,64 @@
             return ["Username does not exist.", False];
         }
 
+    }
+
+    function insertProperty($p_name, 
+                            $p_address, 
+                            $p_address_city, 
+                            $p_address_state, 
+                            $p_address_zc, 
+                            $p_price, 
+                            $p_type, 
+                            $p_status, 
+                            $p_bds, 
+                            $p_ba, 
+                            $p_sqft, 
+                            $p_image,
+                            $sellerID)
+    {
+        $address = $p_address.', '.$p_address_city.', '.$p_address_state.', '.$p_address_zc;
+        $addressAvailable = checkAddressInTable($address);
+
+        // if the address isn't already in database
+        if($addressAvailable) {
+            $sql = 'INSERT INTO Properties (p_img, p_name, p_address, p_price, p_beds, p_baths, p_sqft, p_type, p_status, seller_id) VALUES ("'. $p_image.'", "'.$p_name.'", "'.$address.'", "'.$p_price.'", "'.$p_bds.'", "'.$p_ba.'", "'.$p_sqft.'", "'.$p_type[0].'", "'.$p_status.'", "'.$sellerID.'")';
+
+            // add property
+            $insertReturn = runQuery($sql);
+            
+            if($insertReturn[1] === False) {
+                return $insertReturn;
+            }
+            return ["You've successfully added a property!", True];
+        } else {
+            // return error message
+            return ["This property address already exists in our database.", False];
+        }
+    }
+
+    function getProperties($sellerID) {
+        $sql = "SELECT propertyID, p_img, p_name, p_price, p_type, p_status, p_beds, p_baths, p_sqft, p_address FROM Properties where seller_id = '". $sellerID . "'";
+
+        // get property information given seller id
+        $result = runQuery($sql);
+
+        // if error when running query, return error
+        if(is_array($result) and count($result) == 2 and $result[1] === False) {
+            return $result;
+        }
+
+        // otherwise
+        if($result->num_rows > 0) {
+            // return information
+            $properties = [];
+            while($row = $result->fetch_assoc()) {
+                $properties[$row['propertyID']] = [$row['p_img'], $row['p_name'], $row['p_price'], $row['p_type'], $row['p_status'], $row['p_beds'], $row['p_baths'], $row['p_sqft'], $row['p_address']];
+            }
+            return $properties;
+        } else {
+            // if no user is returned, username doesn't exist
+            return ["This seller has no properties.", False];
+        }
     }
 ?>

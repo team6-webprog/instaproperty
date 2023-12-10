@@ -12,7 +12,7 @@ else {
 
 // if the user is logged in, redirect them to their personal dashboard
 if(isset($_SESSION['f_name'])) {
-    header('Location: dashboard.php');
+    header('Location: sellerDashboard.php');
 }
 ?>
 <!DOCTYPE html>
@@ -60,11 +60,12 @@ if(isset($_SESSION['f_name'])) {
                             // otherwise save information to session cookie
                             // and redirect to dashboard if log in was successful
                             session_start();
+                            $_SESSION["userID"] = $success[4];
                             $_SESSION["userName"] = $success[0];
                             $_SESSION["f_name"] = $success[1];
                             $_SESSION["l_name"] = $success[2];
                             $_SESSION["accountType"] = $success[3];
-                            header('Location: dashboard.php');
+                            header('Location: sellerDashboard.php');
                         }
                     }
                 ?>

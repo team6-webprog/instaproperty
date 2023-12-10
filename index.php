@@ -33,7 +33,7 @@ if(isset($_GET) and $_GET['logout'] === 'true' and isset($_SESSION['f_name'])) {
 
 // if the user is logged in, redirect them to their personal dashboard
 if(isset($_SESSION['f_name'])) {
-    header('Location: dashboard.php');
+    header('Location: sellerDashboard.php');
 }
 
 ?>
@@ -61,7 +61,7 @@ if(isset($_SESSION['f_name'])) {
                 <h2>".$_SESSION['f_name']. " ". $_SESSION['l_name']. "</h2>
                 <i id='hoverIcon' class='arrow down'></i>
                 <div id='dropdownContent' class='dropdownContent hide'>
-                    <p><a href='dashboard.php'>View Dashboard</a></p>
+                    <p><a href='sellerDashboard.php'>View Dashboard</a></p>
                     <p><a href='index.php?logout=true'>Log out</a></p>
                 </div>
                 </div>";
@@ -83,12 +83,12 @@ if(isset($_SESSION['f_name'])) {
             your life. That's why we've crafted a seamless online portal that caters to the needs of both property
             buyers and sellers, making the entire process as smooth as the keys turning in your new front door.</p>
 
-        <p><b>For Property Buyers:</b><br>Discover a world of possibilities as you browse through a diverse range of
+        <p class="bold">For Property Buyers:<br>Discover a world of possibilities as you browse through a diverse range of
             properties meticulously curated to suit every lifestyle. Whether you're searching for a cozy apartment, a
             spacious family home, or an investment opportunity, InstaProperty has the perfect match for you. Our
             intuitive search features and detailed property listings ensure you find your dream home with ease.</p>
 
-        <p><b>For Property Sellers:</b><br>
+        <p class="bold">For Property Sellers:<br>
             Say goodbye to the hassle of selling your property. InstaProperty empowers sellers with a user-friendly
             platform to showcase their homes to a vast audience of potential buyers. Our advanced marketing tools and
             expert guidance help you list, market, and sell your property efficiently. Maximize your property's exposure
@@ -98,7 +98,7 @@ if(isset($_SESSION['f_name'])) {
             // if they are logged in and for some reason haven't been redirected to dashboard
             if(isset($_SESSION['f_name'])) {
                 // provide a link to go to the dashboard and hide sign-up form
-                echo '<button onclick="location.href = '."'dashboard.php'".';" class="btn">See Dashboard</button>';
+                echo '<button onclick="location.href = '."'sellerDashboard.php'".';" class="btn">See Dashboard</button>';
                 echo '<form id="signup_form" class="signup-form hide" name="signup-form" onsubmit="return validateSignUpForm()" method="POST" action="index.php?attempt=true">';
             }
             // default case: show sign-up form
@@ -127,7 +127,7 @@ if(isset($_SESSION['f_name'])) {
             </div>
 
             <!-- account information -->
-            <p><i class="material-icons">person</i> <b>Account Information</b></p>
+            <p class="bold"><i class="material-icons">person</i> Account Information</p>
             <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
             <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
             <input type="text" name="email" id="email" placeholder="Enter Email" required>
@@ -138,7 +138,7 @@ if(isset($_SESSION['f_name'])) {
             </select>
 
             <!-- login information -->
-            <p><i class="material-icons">lock</i> <b>Login Information</b></p>
+            <p class="bold"><i class="material-icons">lock</i> Login Information</p>
             <input type="text" name="userName" id="userName" placeholder="Create Username" required>
             <input type="password" name="userPassword" id="userPassword" placeholder="Enter Password" required>
             <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
