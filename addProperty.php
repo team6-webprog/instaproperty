@@ -77,7 +77,7 @@ else {
             </div>
 
             <!-- account information -->
-            <p class="bold"><i class="material-icons">house</i> Property Information</p>
+            <p class="bold">Property Information</p>
             <input type="text" name="p_name" id="p_name" placeholder="Property Name" required>
 
             <p>Address</p>
@@ -99,7 +99,7 @@ else {
             <input type="number" name="p_price" id="p_price" placeholder="Price" min="0" size="9" required>
 
             <!-- login information -->
-            <p class="bold"><i class="material-icons">note</i> Property Details</p>
+            <p class="bold">Property Details</p>
 
 
             <div class="details_selects">
@@ -127,7 +127,7 @@ else {
             
 
             <!-- privacy information -->
-            <p class="bold"><i class="material-icons">image</i> Photo of Property</p>
+            <p class="bold">Photo of Property</p>
             <input type="text" name="p_image" id="p_image" placeholder="Enter property image as an absolute URL of PNG or JPG type (has to be CODD Link)" required>
 
             <input class="btn" type="submit" value="Add Property">

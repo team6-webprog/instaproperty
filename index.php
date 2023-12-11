@@ -132,7 +132,7 @@ if(isset($_SESSION['f_name']) and isset($_SESSION['accountType'])) {
             </div>
 
             <!-- account information -->
-            <p class="bold"><i class="material-icons">person</i> Account Information</p>
+            <p class="bold">Account Information</p>
             <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
             <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
             <input type="text" name="email" id="email" placeholder="Enter Email" required>
@@ -143,7 +143,7 @@ if(isset($_SESSION['f_name']) and isset($_SESSION['accountType'])) {
             </select>
 
             <!-- login information -->
-            <p class="bold"><i class="material-icons">lock</i> Login Information</p>
+            <p class="bold">Login Information</p>
             <input type="text" name="userName" id="userName" placeholder="Create Username" required>
             <input type="password" name="userPassword" id="userPassword" placeholder="Enter Password" required>
             <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>

@@ -81,10 +81,10 @@ if(isset($_SESSION['f_name'])) {
                 ?>
             </div>
             
-            <label for="username"><i class="material-icons">person</i> <b>Username</b></label>
+            <label for="username"><b>Username</b></label>
             <input type="text" name="userName" id="userName" placeholder="Enter Username" required>
 
-            <label for="pwd"><i class="material-icons">lock</i> <b>Password</b></label>
+            <label for="pwd"><b>Password</b></label>
             <input type="password" name="userPassword" id="userPassword" placeholder="Enter Password" required>
 
             <input class="btn" type="submit" value="Login">
