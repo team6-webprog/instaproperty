@@ -1,6 +1,33 @@
 window.addEventListener("load", () => {
-    document.getElementById('hoverIcon').addEventListener("click", () => {document.getElementById('dropdownContent').classList.toggle("hide");})
+    document.getElementById('hoverIcon').addEventListener("click", () => {document.getElementById('dropdownContent').classList.toggle("hide");});
+
+    const searchInput = document.getElementById('searchInput');
+
+    // get all properties listed
+    let properties = document.getElementsByClassName('card');
+
+    // when search term is typed
+    searchInput.addEventListener("input", e => {
+        const value = e.target.value.toLowerCase()
+        // for each property
+        for (let j = 0; j < properties.length; j++) {
+            const property = properties[j];
+            let isVisible = false;
+            // get keywords
+            let keywords = property.getAttribute("data-card-keywords").split(",");
+            keywords.forEach(key => {
+                // if keyword includes search term, set visible to true
+                if(key.toLowerCase().includes(value)) {
+                    isVisible = true;
+                }
+            })
+
+            // determine whether to show the card based on visible
+            property.classList.toggle("hide", !isVisible);
+        }
+    })
 })
+
 function validateSignUpForm() {
     //get the values from the form
 	var fname = document.getElementById("firstName").value;

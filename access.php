@@ -194,4 +194,52 @@
             return ["This seller has no properties.", False];
         }
     }
+
+    function getAllProperties() {
+        $sql = "SELECT propertyID, p_img, p_name, p_price, p_type, p_status, p_beds, p_baths, p_sqft, p_address FROM Properties";
+
+        // get property information given seller id
+        $result = runQuery($sql);
+
+        // if error when running query, return error
+        if(is_array($result) and count($result) == 2 and $result[1] === False) {
+            return $result;
+        }
+
+        // otherwise
+        if($result->num_rows > 0) {
+            // return information
+            $properties = [];
+            while($row = $result->fetch_assoc()) {
+                $properties[$row['propertyID']] = [$row['p_img'], $row['p_name'], $row['p_price'], $row['p_type'], $row['p_status'], $row['p_beds'], $row['p_baths'], $row['p_sqft'], $row['p_address']];
+            }
+            return $properties;
+        } else {
+            // if no user is returned, username doesn't exist
+            return ["There are no properties to list.", False];
+        }
+    }
+
+    function getWishlistProperties($propertyID) {
+
+        $properties = [];
+
+        for ($i=0; $i < count($propertyID)-1; $i++) { 
+            $sql = "SELECT propertyID, p_img, p_name, p_price, p_type, p_status, p_beds, p_baths, p_sqft, p_address FROM Properties where propertyID = ". $propertyID[$i];
+            // get property information given seller id
+            $result = runQuery($sql);
+
+            // if error when running query, return error
+            if(is_array($result) and count($result) == 2 and $result[1] === False) {
+                return $result;
+            }
+
+            // return information
+            while($row = $result->fetch_assoc()) {
+                $properties[$row['propertyID']] = [$row['p_img'], $row['p_name'], $row['p_price'], $row['p_type'], $row['p_status'], $row['p_beds'], $row['p_baths'], $row['p_sqft'], $row['p_address']];
+            }
+        }
+
+        return $properties;
+    }
 ?>

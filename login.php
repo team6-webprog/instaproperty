@@ -10,9 +10,13 @@ else {
     $success = False;
 }
 
-// if the user is logged in, redirect them to their personal dashboard
+// if the user is logged in, redirect them to their personal dashboard based on their account type
 if(isset($_SESSION['f_name'])) {
-    header('Location: sellerDashboard.php');
+    if($_SESSION["accountType"] == "S") {
+        header('Location: sellerDashboard.php');
+    } else {
+        header('Location: buyerDashboard.php');
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -65,7 +69,13 @@ if(isset($_SESSION['f_name'])) {
                             $_SESSION["f_name"] = $success[1];
                             $_SESSION["l_name"] = $success[2];
                             $_SESSION["accountType"] = $success[3];
-                            header('Location: sellerDashboard.php');
+
+                            if($_SESSION["accountType"] === 'S') {
+                                header('Location: sellerDashboard.php');
+                            } else {
+                                header('Location: buyerDashboard.php');
+                            }
+                            
                         }
                     }
                 ?>
@@ -78,7 +88,6 @@ if(isset($_SESSION['f_name'])) {
             <input type="password" name="userPassword" id="userPassword" placeholder="Enter Password" required>
 
             <input class="btn" type="submit" value="Login">
-            <p class="forgot"><a href="#" style="text-align:center;">Forgot Password?</a></form></p>
         </form>
 
     </div>

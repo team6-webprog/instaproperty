@@ -32,8 +32,12 @@ if(isset($_GET) and $_GET['logout'] === 'true' and isset($_SESSION['f_name'])) {
 }
 
 // if the user is logged in, redirect them to their personal dashboard
-if(isset($_SESSION['f_name'])) {
-    header('Location: sellerDashboard.php');
+if(isset($_SESSION['f_name']) and isset($_SESSION['accountType'])) {
+    if($_SESSION["accountType"] == "S") {
+        header('Location: sellerDashboard.php');
+    } else {
+        header('Location: buyerDashboard.php');
+    }
 }
 
 ?>
@@ -62,6 +66,7 @@ if(isset($_SESSION['f_name'])) {
                 <i id='hoverIcon' class='arrow down'></i>
                 <div id='dropdownContent' class='dropdownContent hide'>
                     <p><a href='sellerDashboard.php'>View Dashboard</a></p>
+                    <p><a href='wishlist.php'>Wishlist</a></p>
                     <p><a href='index.php?logout=true'>Log out</a></p>
                 </div>
                 </div>";
@@ -83,12 +88,12 @@ if(isset($_SESSION['f_name'])) {
             your life. That's why we've crafted a seamless online portal that caters to the needs of both property
             buyers and sellers, making the entire process as smooth as the keys turning in your new front door.</p>
 
-        <p class="bold">For Property Buyers:<br>Discover a world of possibilities as you browse through a diverse range of
+        <p><span class="bold">For Property Buyers:</span><br>Discover a world of possibilities as you browse through a diverse range of
             properties meticulously curated to suit every lifestyle. Whether you're searching for a cozy apartment, a
             spacious family home, or an investment opportunity, InstaProperty has the perfect match for you. Our
             intuitive search features and detailed property listings ensure you find your dream home with ease.</p>
 
-        <p class="bold">For Property Sellers:<br>
+        <p><span class="bold">For Property Sellers:</span><br>
             Say goodbye to the hassle of selling your property. InstaProperty empowers sellers with a user-friendly
             platform to showcase their homes to a vast audience of potential buyers. Our advanced marketing tools and
             expert guidance help you list, market, and sell your property efficiently. Maximize your property's exposure
@@ -145,7 +150,7 @@ if(isset($_SESSION['f_name'])) {
 
             <!-- privacy information -->
             <label id="checkbox-text">
-                <input type="checkbox" checked="checked" name="remember" id="checkbox" style="margin-bottom:15px">I
+                <input type="checkbox" checked="checked" name="remember" id="checkbox" style="margin-bottom:15px" required>I
                 accept the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>
             </label>
 

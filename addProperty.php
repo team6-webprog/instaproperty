@@ -4,20 +4,6 @@ session_start();
 // if user attempts to submit property form
 if (isset($_POST) and isset($_GET) and $_GET['attempt'] === 'true') {
     # attempt to add property to database
-    echo $_POST['p_name']. ' '. 
-    $_POST['p_address']. ' '. 
-    $_POST['p_address_city']. ' '. 
-    $_POST['p_address_state']. ' '. 
-    $_POST['p_address_zc']. ' '. 
-    $_POST['p_price']. ' '. 
-    $_POST['p_type']. ' '. 
-    $_POST['p_status']. ' '. 
-    $_POST['p_bds']. ' '. 
-    $_POST['p_ba']. ' '. 
-    $_POST['p_sqft']. ' '. 
-    $_POST['p_image']. ' '.
-    $_SESSION['userID'];
-
     $success = insertProperty($_POST['p_name'], 
     $_POST['p_address'], 
     $_POST['p_address_city'], 
@@ -49,10 +35,6 @@ else {
 
 <body>
 
-    <div class="alert">
-
-    </div>
-
     <!-- header -->
     <div class="header">
         <h1>InstaProperty</h1>
@@ -80,7 +62,7 @@ else {
 
             <!-- displays an error message if needed -->
             <div id="errorMsg">
-                <!-- <?php
+                <?php
                     // if an attempt to add a property was made and an error is returned
                     if(isset($_POST) and isset($_GET) and $_GET['attempt'] === 'true') {
                         if($success[1] == False) {
@@ -91,7 +73,7 @@ else {
                             header('Location: sellerDashboard.php?addedProperty=true');
                         }
                     }
-                ?> -->
+                ?>
             </div>
 
             <!-- account information -->
@@ -146,8 +128,7 @@ else {
 
             <!-- privacy information -->
             <p class="bold"><i class="material-icons">image</i> Photo of Property</p>
-            <input type="text" name="p_image" id="p_image" placeholder="Enter property image as an absolute URL of PNG or JPG type" required>
-            <!-- <input type="file" name="p_image" id="p_image" required> -->
+            <input type="text" name="p_image" id="p_image" placeholder="Enter property image as an absolute URL of PNG or JPG type (has to be CODD Link)" required>
 
             <input class="btn" type="submit" value="Add Property">
         </form>

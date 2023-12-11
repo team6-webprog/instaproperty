@@ -2,19 +2,14 @@
 include 'access.php';
 
 session_start();
-$acctType = "";
 
-// save account type to variable
-if($_SESSION['accountType'] === 'S') {
-    $acctType = "Seller";
-} elseif ($_SESSION['accountType'] === 'B') {
-    $acctType = "Buyer";
+// get wishlist items
+if(isset($_SESSION['wishlist'])) {
+    $property_ids = explode(",", $_SESSION['wishlist']);
+    $properties = getWishlistProperties($property_ids);
 } else {
-    $acctType = "Admin";
+    $properties = [];
 }
-
-// get properties connected to this seller in database
-$properties = getProperties($_SESSION['userID']);
 
 ?>
 <!DOCTYPE html>
@@ -43,7 +38,8 @@ $properties = getProperties($_SESSION['userID']);
                 <h2>".$_SESSION['f_name']. " ". $_SESSION['l_name']. "</h2>
                 <i id='hoverIcon' class='arrow down'></i>
                 <div id='dropdownContent' class='dropdownContent hide'>
-                    <p><a href='sellerDashboard.php'>View Dashboard</a></p>
+                    <p><a href='buyerDashboard.php'>View Dashboard</a></p>
+                    <p><a href='wishlist.php'>Wishlist</a></p>
                     <p><a href='index.php?logout=true'>Log out</a></p>
                 </div>
                 </div>";
@@ -53,12 +49,8 @@ $properties = getProperties($_SESSION['userID']);
 
     <!-- main container -->
     <div class="container">
-        <h2>Welcome to your <?= $acctType ?> Dashboard, <?= $_SESSION['f_name'] ?></h2>
+        <h2>Your Wishlist, <?= $_SESSION['f_name'] ?></h2>
         <?php
-            // if this is a redirect from the add property page, show success message
-            if(isset($_GET) and $_GET['addedProperty'] == 'true') {
-                echo "<div class='successAlert'>You've successfully added a property!</div>";
-            }
             if(count($properties) == 2 and $properties[1] == False) {
                 echo "<div class='errorMsg'>".$properties[0]."</div>";
             }
@@ -66,18 +58,7 @@ $properties = getProperties($_SESSION['userID']);
 
         <div class="properties">
 
-            <!-- add property prompt -->
-            <div class="card">
-                <div class="top">
-                    <div class="addProperty" onclick="location.href = 'addProperty.php';">+</div>
-                </div>
-                <div class="bottom">
-                    <h3>Add a Property</h3>
-                </div>
-            </div>
-
             <?php
-                // for each property in properties varibale
                 foreach($properties as $propertyID => $propertyInfo) {
                     echo '<div class="card"><div class="top">';
                     echo '<img src="'.$propertyInfo[0].'" alt="'.strval($propertyID).' Property Image">';
@@ -86,7 +67,6 @@ $properties = getProperties($_SESSION['userID']);
                                 <h4>$'.strval($propertyInfo[2]).'</h4>
                                 <p>';
 
-                    // convert the single Character to the full named property type
                     if($propertyInfo[3] == 'H') {
                         echo 'House ';
                     } elseif($propertyInfo[3] == 'A') {
@@ -97,7 +77,6 @@ $properties = getProperties($_SESSION['userID']);
                         echo 'Townhouse ';
                     }
 
-                    // determine whether text should be for sale/rent or off market
                     if($propertyInfo[4] == "Sale" or $propertyInfo[4] == "Rent"){
                         echo 'for '. $propertyInfo[4];
                     } else {
@@ -112,9 +91,7 @@ $properties = getProperties($_SESSION['userID']);
                                 <li><span class="bold">Sqft:</span> '.strval($propertyInfo[7]).'</li>
                             </ul>
                             <div class="address"><span class="bold">Address:</span> '.$propertyInfo[8].'</div>';
-                    echo '
-                        </div>
-                    </div>';
+                    echo '</div></div>';
 
                 }
             ?>
