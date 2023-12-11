@@ -116,3 +116,37 @@ function isValidEmail(email) {
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
+
+function openModal(info) {
+    const modal = document.getElementById('myModal');
+    const modalHeader = document.getElementById('modalTitle');
+    const modalImage = document.getElementById('modalImage');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalType = document.getElementById('modalType');
+    const modalBds = document.getElementById('modalBds');
+    const modalBa = document.getElementById('modalBa');
+    const modalSqft = document.getElementById('modalSqft');
+    const modalAddr = document.getElementById('modalAddr');
+  
+    modalHeader.textContent = info.children[0].children[1].innerText;
+    modalImage.src = info.children[0].children[0].src;
+    modalImage.alt = info.children[0].children[0].alt;
+
+    modalPrice.textContent = info.children[0].children[2].children[0].innerText;
+    modalType.textContent = info.children[0].children[2].children[1].innerText;
+    modalBds.textContent = info.children[1].children[0].children[0].innerText;
+    modalBa.textContent = info.children[1].children[0].children[1].innerText;
+    modalSqft.textContent = info.children[1].children[0].children[2].innerText;
+    modalAddr.innerHTML = info.children[1].children[1].innerHTML;
+  
+    modal.classList.toggle("hide");
+  }
+  
+  function closeModal() {
+    const modal = document.getElementById('myModal');
+    modal.classList.toggle("hide");
+  }
+  
+  function goToWishlist() {
+    window.location.href = 'wishlist.html';
+  }

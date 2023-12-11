@@ -83,7 +83,7 @@ $properties = getAllProperties();
                     }
 
                     // create card div to store information
-                    echo '<div class="card" data-card-keywords="'.$propertyInfo[1].','.$propertyInfo[2].','.substr($propertyType,0, strlen($propertyType)-1).','.$propertyInfo[4].'"><div class="top">';
+                    echo '<div class="card" onclick="return openModal(this)" data-card-keywords="'.$propertyInfo[1].','.$propertyInfo[2].','.substr($propertyType,0, strlen($propertyType)-1).','.$propertyInfo[4].'"><div class="top">';
                     echo '<img src="'.$propertyInfo[0].'" alt="'.strval($propertyID).' Property Image">';
                     echo '<h3>'.$propertyInfo[1].'</h3>
                             <div class="price_type">
@@ -115,6 +115,33 @@ $properties = getAllProperties();
                 }
             ?>
 
+        </div>
+
+        <!-- Modal container -->
+        <div id="myModal" class="modal hide">
+            <div class="modal-content">
+
+                <div id="modalCard" class=".modal-content">
+                    <div class="top">
+                        <img id="modalImage" src="#" alt="propertyImage">
+                        <h3 id="modalTitle"></h3>
+                        <div class="price_type">
+                            <h4 id="modalPrice">$</h4>
+                            <p id="modalType"></p>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <ul>
+                            <li id="modalBds"><span class="bold">Bds:</span> </li>
+                            <li id="modalBa"><span class="bold">Ba:</span> </li>
+                            <li id="modalSqft"><span class="bold">Sqft:</span> </li>
+                        </ul>
+                        <div class="address" id="modalAddr"></div>
+                    </div>
+                </div>
+
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
         </div>
 
     </div>
